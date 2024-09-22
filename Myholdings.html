@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apply Now - Sokrin Koirala</title>
+  <title>My Holdings - Sokrin Koirala</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -32,18 +32,52 @@
       color: #007bff;
     }
 
-    .form-embed {
-      width: 100%;
-      height: 600px; /* Adjust height as needed */
-      border: none;
+    .holding-list {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .holding-item {
+      text-align: center;
+    }
+
+    .holding-item img {
+      width: 2cm; /* Set image size to 2cm */
+      height: 2cm; /* Set image size to 2cm */
+      border-radius: 5px;
+    }
+
+    .holding-item a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .holding-item a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h1>Apply Now</h1>
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScZHx4zdoIHJPs4jdGFfYuCayK-JiA3tN4p2CvzNCNx8igeSg/viewform?usp=sf_link" class="form-embed"></iframe>
+    <h1>My Holdings</h1>
+    <div class="holding-list">
+      <div class="holding-item">
+        <img src="image/bidesh.jpeg" alt="Bidesh App Private Limited">
+        <p><a href="https://bidesh.co">Bidesh App Private Limited</a></p>
+      </div>
+      <div class="holding-item">
+        <img src="image/airbnb.jpg" alt="Airbnb Property Management">
+        <p><a href="https://www.airbnb.com/rooms/1249189708329102872?source_impression_id=p3_1727023413_P33hfUX2WeP1raY9">Airbnb Property Management</a></p>
+      </div>
+      <div class="holding-item">
+        <img src="image/sokritee.jpg" alt="Koirala Brothers Construction Private Limited">
+        <p>Koirala Brothers Construction Private Limited</p>
+      </div>
+    </div>
   </div>
 
   <!-- Bootstrap and JS libraries -->

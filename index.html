@@ -7,7 +7,6 @@
 
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
   <style>
     body, html {
       margin: 0;
@@ -31,7 +30,6 @@
       position: relative;
     }
 
-    /* Adding a translucent frame effect around the content */
     .frame {
       background-color: rgba(255, 255, 255, 0.85);
       border-radius: 15px;
@@ -61,12 +59,12 @@
     }
 
     .profile-pic {
-      width: 210px; /* Increased size */
-      height: 210px; /* Increased size */
+      width: 210px;
+      height: 210px;
       border-radius: 50%;
       border: 3px solid white;
-      margin: 10px auto; /* Center the profile picture */
-      display: block; /* Make it block to center */
+      margin: 10px auto;
+      display: block;
     }
 
     .profile {
@@ -143,7 +141,21 @@
       text-decoration: underline;
     }
 
-    /* Responsiveness for smaller screens */
+    /* Animation styles */
+    @keyframes fly-plane {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100vw); }
+    }
+
+    .plane {
+      position: absolute;
+      top: 20%;
+      left: -200px; /* Start outside the view */
+      width: 300px; /* Increased size */
+      display: none; /* Hidden initially */
+      animation: fly-plane 10s linear forwards;
+    }
+
     @media (max-width: 768px) {
       .frame {
         padding: 30px;
@@ -163,109 +175,101 @@
 </head>
 <body>
 
-  <!-- Navigation Bar -->
   <nav class="navbar">
     <div>
       <a class="navbar-brand" href="#">Sokrin Koirala</a>
+      <a href="privacy-policy.html" class="btn btn-outline-light" style="margin-left: 20px;">Privacy Policy</a>
     </div>
   </nav>
 
-  <!-- Main Container with Frame -->
   <div class="container">
     <div class="frame">
-      <!-- Profile Section -->
       <div class="profile">
-        <img src="image/sokro.jpeg" alt="Sokrin Koirala" class="profile-pic"> <!-- Profile picture at the top center -->
+        <img src="image/sokro.jpeg" alt="Sokrin Koirala" class="profile-pic">
         <h1>Sokrin Koirala</h1>
         <p>Entrepreneur | Digital Marketing | Graphic Design | IT Specialist</p>
       </div>
 
-      <!-- Button Section -->
       <div class="button-section">
         <button class="btn" onclick="location.href='connectme.html'">Connect Me</button>
-        <button class="btn" onclick="location.href='applynow.html'">Apply Now</button>
+        <button class="btn" onclick="location.href='myHoldings.html'">My Holdings</button>
         <a href="about.html" class="btn">About Me</a>
         <a href="booknow.html" class="btn">Book Now</a>
       </div>
 
-      <!-- Portal Login Section -->
       <div class="portal">
-        <h2 id="title">Login</h2>
+        <h2 id="title">Register Now</h2>
         <div id="login-section">
-          <button class="btn btn-outline-light" onclick="googleLogin()">
-            <img src="https://img.icons8.com/color/16/000000/google-logo.png"> Login with Google
+          <button class="btn btn-outline-light" onclick="showRegistrationForm()">
+            Register Now
           </button>
         </div>
         <div id="signup-section" style="display: none;">
           <input type="text" class="form-control" id="name" placeholder="Name" required>
+          <input type="text" class="form-control" id="address" placeholder="Address" required>
           <input type="tel" class="form-control" id="contact" placeholder="Contact No." required>
+          <input type="email" class="form-control" id="email" placeholder="Email" required>
           <div class="nepali-check">
+            <label>Are you looking to work with me?</label>
             <div>
-              <input type="radio" id="yes" name="nepali" value="Yes">
-              <label for="yes">Yes</label>
+              <input type="radio" id="workYes" name="work" value="Yes">
+              <label for="workYes">Yes</label>
             </div>
             <div>
-              <input type="radio" id="no" name="nepali" value="No">
-              <label for="no">No</label>
+              <input type="radio" id="workNo" name="work" value="No">
+              <label for="workNo">No</label>
             </div>
           </div>
-          <button class="btn btn-outline-light" onclick="submitSignup()">Sign Up</button>
+          <button class="btn btn-outline-light" onclick="submitForm()">Submit</button>
         </div>
-        <div class="toggle" onclick="toggleForm()">Sign Up</div>
       </div>
+
+      <!-- Plane animation element -->
+      <img src="image/plane.png" class="plane" id="plane">
     </div>
   </div>
 
-  <!-- Bootstrap and JS libraries -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
-    function googleLogin() {
-      console.log("Google login clicked");
-      alert("Google login functionality to be implemented.");
+    function showRegistrationForm() {
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('signup-section').style.display = 'block';
     }
 
-    function toggleForm() {
-      const loginSection = document.getElementById('login-section');
-      const signupSection = document.getElementById('signup-section');
-      const title = document.getElementById('title');
-      const toggleText = document.querySelector('.toggle');
-
-      if (signupSection.style.display === 'none') {
-        loginSection.style.display = 'none';
-        signupSection.style.display = 'block';
-        title.innerText = 'Sign Up';
-        toggleText.innerText = 'Login';
-      } else {
-        loginSection.style.display = 'block';
-        signupSection.style.display = 'none';
-        title.innerText = 'Login';
-        toggleText.innerText = 'Sign Up';
-      }
-    }
-
-    function submitSignup() {
+    function submitForm() {
       const name = document.getElementById('name').value;
+      const address = document.getElementById('address').value;
       const contact = document.getElementById('contact').value;
-      const nepali = document.querySelector('input[name="nepali"]:checked')?.value;
+      const email = document.getElementById('email').value;
 
-      if (!name || !contact || !nepali) {
-        alert("Please fill in all the fields.");
-        return;
-      }
+      // Show the plane after submission
+      document.getElementById('plane').style.display = 'block';
+      document.getElementById('plane').style.animation = 'fly-plane 10s linear forwards';
 
-      console.log({
-        name: name,
-        contact: contact,
-        nepali: nepali
-      });
+      // Hide the plane after the animation completes
+      setTimeout(() => {
+        document.getElementById('plane').style.display = 'none';
+      }, 10000); // Match this with the animation duration
+    }
 
-      alert("Sign-up details submitted!");
+    // Trigger the plane animation on page load
+    window.onload = function() {
+      const plane = document.getElementById('plane');
+      plane.style.display = 'block';
+      plane.style.animation = 'fly-plane 10s linear forwards';
+
+      // Hide the plane after the animation completes
+      setTimeout(() => {
+        plane.style.display = 'none';
+      }, 10000); // Match this with the animation duration
     }
   </script>
-
 </body>
 </html>
+
+
 
 
 
