@@ -14,7 +14,7 @@
       height: 100%;
       font-family: Arial, sans-serif;
       overflow-x: hidden;
-      overflow-y: auto; /* Allow vertical scrolling */
+      overflow-y: auto;
     }
 
     .container {
@@ -22,7 +22,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      min-height: 100vh; /* Ensure full height */
+      min-height: 100vh;
       width: 100vw;
       display: flex;
       justify-content: center;
@@ -38,7 +38,7 @@
       box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
       max-width: 900px;
       width: 90%;
-      position: relative; /* Added for positioning */
+      position: relative;
     }
 
     .navbar {
@@ -103,12 +103,34 @@
       transition: background-color 0.3s, color 0.3s;
       color: #007bff;
       background-color: white;
+      position: relative;
+      overflow: hidden;
     }
 
     .button-section a:hover, 
     .button-section button:hover {
       background-color: #007bff;
       color: white;
+    }
+
+    .button-section a.loading::after, 
+    .button-section button.loading::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      animation: loading 1s infinite;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes loading {
+      0% { transform: translate(-50%, -50%) scale(1); }
+      50% { transform: translate(-50%, -50%) scale(1.5); }
+      100% { transform: translate(-50%, -50%) scale(1); }
     }
 
     .portal {
@@ -135,7 +157,6 @@
       color: white;
     }
 
-    /* Animation styles */
     @keyframes fly-plane {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100vw); }
@@ -144,9 +165,9 @@
     .plane {
       position: absolute;
       top: 20%;
-      left: -200px; /* Start outside the view */
-      width: 300px; /* Increased size */
-      display: none; /* Hidden initially */
+      left: -200px;
+      width: 300px;
+      display: none;
       animation: fly-plane 10s linear forwards;
     }
 
@@ -214,11 +235,10 @@
               <label for="workNo">No</label>
             </div>
           </div>
-          <button class="btn btn-outline-light" onclick="submitForm()">Submit</button>
+          <button class="btn btn-outline-light" id="submit-button" onclick="submitForm()">Submit</button>
         </div>
       </div>
 
-      <!-- Plane animation element -->
       <img src="image/plane.png" class="plane" id="plane">
     </div>
   </div>
@@ -238,25 +258,34 @@
       const contact = document.getElementById('contact').value;
       const email = document.getElementById('email').value;
 
+      // Show loading animation
+      const submitButton = document.getElementById('submit-button');
+      submitButton.classList.add('loading');
+
       // Show the plane after submission
       document.getElementById('plane').style.display = 'block';
-      document.getElementById('plane').style.animation = 'fly-plane 10s linear forwards';
+      document.getElementById('plane').style.animation = 'fly-plane 5s linear forwards';
 
       // Redirect to invest.html after a delay
       setTimeout(() => {
         window.location.href = 'invest.html';
-      }, 10000); // Matches the animation duration
+      }, 1000); // Redirect after 1 second
     }
 
-    // Trigger the plane animation on page load
     window.onload = function() {
       const plane = document.getElementById('plane');
       plane.style.display = 'block';
-      plane.style.animation = 'fly-plane 10s linear forwards';
+      plane.style.animation = 'fly-plane 4s linear forwards';
+      
+      // Hide the plane after 5 seconds
+      setTimeout(() => {
+        plane.style.display = 'none';
+      }, 5000);
     }
   </script>
 </body>
 </html>
+
 
 
 
