@@ -14,6 +14,7 @@
       height: 100%;
       font-family: Arial, sans-serif;
       overflow-x: hidden;
+      overflow-y: auto; /* Allow vertical scrolling */
     }
 
     .container {
@@ -21,7 +22,7 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 100%;
+      min-height: 100vh; /* Ensure full height */
       width: 100vw;
       display: flex;
       justify-content: center;
@@ -37,6 +38,7 @@
       box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
       max-width: 900px;
       width: 90%;
+      position: relative; /* Added for positioning */
     }
 
     .navbar {
@@ -131,14 +133,6 @@
       justify-content: space-around;
       margin-bottom: 15px;
       color: white;
-    }
-
-    .toggle {
-      color: #ddd;
-      cursor: pointer;
-      font-size: 14px;
-      margin-top: 10px;
-      text-decoration: underline;
     }
 
     /* Animation styles */
@@ -248,10 +242,10 @@
       document.getElementById('plane').style.display = 'block';
       document.getElementById('plane').style.animation = 'fly-plane 10s linear forwards';
 
-      // Hide the plane after the animation completes
+      // Redirect to invest.html after a delay
       setTimeout(() => {
-        document.getElementById('plane').style.display = 'none';
-      }, 10000); // Match this with the animation duration
+        window.location.href = 'invest.html';
+      }, 10000); // Matches the animation duration
     }
 
     // Trigger the plane animation on page load
@@ -259,15 +253,16 @@
       const plane = document.getElementById('plane');
       plane.style.display = 'block';
       plane.style.animation = 'fly-plane 10s linear forwards';
-
-      // Hide the plane after the animation completes
-      setTimeout(() => {
-        plane.style.display = 'none';
-      }, 10000); // Match this with the animation duration
     }
   </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 

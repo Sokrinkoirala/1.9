@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Opportunity</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            padding: 50px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007bff;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 60vh;
+            width: 80vw;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            background-color: white;
+        }
+        .invest-button {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #007bff;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
+        }
+        .invest-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Real-Time Crypto Charts</h2>
+        <div class="chart-container">
+            <canvas id="cryptoChart"></canvas>
+        </div>
+        <a href="#" class="invest-button">Invest With Sokrin</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('cryptoChart').getContext('2d');
+        const cryptoChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Bitcoin (BTC)',
+                        borderColor: 'gold',
+                        backgroundColor: 'rgba(255, 215, 0, 0.2)',
+                        data: [],
+                        fill: true,
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                    },
+                    {
+                        label: 'Ethereum (ETH)',
+                        borderColor: 'blue',
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        data: [],
+                        fill: true,
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom',
+                        title: {
+                            display: true,
+                            text: 'Time (minutes)',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 123, 255, 0.2)',
+                            lineWidth: 1
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Price (USD)',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0, 123, 255, 0.2)',
+                            lineWidth: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: $${tooltipItem.raw}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        function fetchCryptoData() {
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd')
+                .then(response => response.json())
+                .then(data => {
+                    const time = cryptoChart.data.labels.length; // Using index as time
+                    const btcPrice = data.bitcoin.usd;
+                    const ethPrice = data.ethereum.usd;
+
+                    // Update chart data
+                    cryptoChart.data.labels.push(time);
+                    cryptoChart.data.datasets[0].data.push(btcPrice);
+                    cryptoChart.data.datasets[1].data.push(ethPrice);
+
+                    // Limit the data points to the last 30 for better readability
+                    if (cryptoChart.data.labels.length > 30) {
+                        cryptoChart.data.labels.shift();
+                        cryptoChart.data.datasets[0].data.shift();
+                        cryptoChart.data.datasets[1].data.shift();
+                    }
+
+                    cryptoChart.update();
+                })
+                .catch(err => console.error(err));
+        }
+
+        // Fetch data every minute
+        setInterval(fetchCryptoData, 60000);
+        fetchCryptoData(); // Initial fetch
+    </script>
+</body>
+</html>
